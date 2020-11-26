@@ -22,8 +22,14 @@ export default class Search extends Component {
 
     onSubmit = (event) => {
         event.preventDefault();
-        this.props.onUserSearch(this.state.text);
-        this.setState({text : ""});
+        if(this.state.text !== '') {
+            this.props.onUserSearch(this.state.text);
+            this.setState({text : ""});
+        }
+        else {
+            this.props.setAlert("Please Enter a Username to search!!", "danger");
+        }
+    
     }
 
     render() {

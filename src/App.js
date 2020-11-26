@@ -9,6 +9,7 @@ import Navbar from './components/Navbar';
 import About from './components/About';
 import Search from './components/Search';
 import Users from './components/Users';
+import Alert from './components/Alert';
 
 export default class App extends Component {
     constructor() {
@@ -53,12 +54,12 @@ export default class App extends Component {
                 <div>
                     <Navbar title="GitHub Profile Search"/>
                     <div className="container">
-                        
+                        <Alert alert={this.state.alert} />
                         <Switch>
                             <Route exact path="/"
                                 render={() => (
                                     <>
-                                        <Search onUserSearch={this.onUserSearch} onClearSearch={this.onClearSearch} showClearBtn={this.state.users.length > 0 ? true : false} />
+                                        <Search onUserSearch={this.onUserSearch} onClearSearch={this.onClearSearch} showClearBtn={this.state.users.length > 0 ? true : false} setAlert={this.setAlert} />
                                         <Users users={this.state.users} loading={this.state.loading} />
                                     </>
                                 )}
