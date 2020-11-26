@@ -15,8 +15,29 @@ export default class App extends Component {
         super();
         this.state = {
             users : [],
-            loading : true
+            loading : true,
+            alert : null
         }
+    }
+
+    onUserSearch = async (text) => {
+        this.setState({loading : true});
+        const res = await axios.get(`https://api.github.com/search/users?q=${text}`);
+        this.setState({
+            users : res.data.items,
+            loading : false
+        });
+    }
+
+    onClearSearch = () => {
+        this.setState({users : []});
+    }
+
+    setAlert = (msg, type) => {
+        this.setState({alert : {msg, type}});
+        setTimeout(() => {
+            this.setState({alert : null});
+        }, 2000);
     }
 
     async componentDidMount() {
@@ -37,7 +58,7 @@ export default class App extends Component {
                             <Route exact path="/"
                                 render={() => (
                                     <>
-                                        <Search />
+                                        <Search onUserSearch={this.onUserSearch} onClearSearch={this.onClearSearch} showClearBtn={this.state.users.length > 0 ? true : false} />
                                         <Users users={this.state.users} loading={this.state.loading} />
                                     </>
                                 )}
