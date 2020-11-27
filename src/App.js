@@ -10,6 +10,7 @@ import About from './components/About';
 import Search from './components/Search';
 import Users from './components/Users';
 import Alert from './components/Alert';
+import Profile from './components/Profile';
 
 export default class App extends Component {
     constructor() {
@@ -17,7 +18,8 @@ export default class App extends Component {
         this.state = {
             users : [],
             loading : true,
-            alert : null
+            alert : null,
+            userProfile : {}
         }
     }
 
@@ -39,6 +41,15 @@ export default class App extends Component {
         setTimeout(() => {
             this.setState({alert : null});
         }, 2000);
+    }
+
+    getUserProfile = async (username) => {
+        this.setState({loading : true});
+        const res = await axios.get(`https://api.github.com/users/${username}`);
+        this.setState({
+            userProfile : res.data,
+            loading : false
+        });
     }
 
     async componentDidMount() {
@@ -64,9 +75,20 @@ export default class App extends Component {
                                     </>
                                 )}
                             />
+
                             <Route exact path="/about" >
                                 <About />
                             </Route>
+
+                            <Route exact path="/user/:username"
+                                render={(props) => (
+                                    <Profile  {...props}
+                                            userProfile={this.state.userProfile}
+                                            getUserProfile={this.getUserProfile}
+                                            loading={this.state.loading}
+                                    />
+                                )}
+                            />
                         </Switch>
 
                     </div>
