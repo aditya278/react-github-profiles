@@ -4,16 +4,22 @@ import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
 
 import Loading from './Loading';
+import Repos from './Repos';
 
 export default class Profile extends Component {
 
     static propTypes = {
-        userProfile : PropTypes.object.isRequired,
-        getUserProfile : PropTypes.func.isRequired
+        userProfile: PropTypes.object.isRequired,
+        getUserProfile: PropTypes.func.isRequired,
+        loading : PropTypes.bool.isRequired,
+        userRepos : PropTypes.array.isRequired,
+        getUserRepos : PropTypes.func.isRequired
     }
 
     componentDidMount() {
-        this.props.getUserProfile(this.props.match.params.username);
+        const username = this.props.match.params.username;
+        this.props.getUserProfile(username);
+        this.props.getUserRepos(username);
     }
 
     render() {
@@ -33,7 +39,7 @@ export default class Profile extends Component {
             company
         } = this.props.userProfile;
 
-        if(this.props.loading) {
+        if (this.props.loading) {
             return <Loading />
         }
 
@@ -43,12 +49,12 @@ export default class Profile extends Component {
                     Back to Search
                 </Link>
                 Hireable : {
-                    hireable ? ( <i className="fas fa-check text-success" />) : ( <i className="fas fa-check text-danger"/> )
+                    hireable ? (<i className="fas fa-check text-success" />) : (<i className="fas fa-check text-danger" />)
                 }
 
                 <div className="card grid-2">
                     <div className="all-center">
-                        <img src={avatar_url} alt="Display" className="round-img" style={{maxWidth:150}} />
+                        <img src={avatar_url} alt="Display" className="round-img" style={{ maxWidth: 150 }} />
                         <h1>{name}</h1>
                         <p>Location : {location}</p>
                     </div>
@@ -107,6 +113,7 @@ export default class Profile extends Component {
                         Public Gists : {public_gists}
                     </div>
                 </div>
+                <Repos userRepos={this.props.userRepos} />
             </>
         )
     }

@@ -19,7 +19,8 @@ export default class App extends Component {
             users : [],
             loading : true,
             alert : null,
-            userProfile : {}
+            userProfile : {},
+            userRepos : []
         }
     }
 
@@ -48,6 +49,15 @@ export default class App extends Component {
         const res = await axios.get(`https://api.github.com/users/${username}`);
         this.setState({
             userProfile : res.data,
+            loading : false
+        });
+    }
+
+    getUserRepos = async(username) => {
+        this.setState({loading : true});
+        const res = await axios.get(`https://api.github.com/users/${username}/repos?per_page=6&sort=created:asc`);
+        this.setState({
+            userRepos : res.data,
             loading : false
         });
     }
@@ -86,6 +96,8 @@ export default class App extends Component {
                                             userProfile={this.state.userProfile}
                                             getUserProfile={this.getUserProfile}
                                             loading={this.state.loading}
+                                            userRepos={this.state.userRepos}
+                                            getUserRepos={this.getUserRepos}
                                     />
                                 )}
                             />
