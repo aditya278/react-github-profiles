@@ -19,7 +19,7 @@ Repos.propTypes = {
 
 const userStyle = {
     display: "grid",
-    gridTemplateColumns: "repeat(3, 1.5fr)",
+    gridTemplateColumns: "repeat(3, 1fr)",
     gridGap: "2rem",
 };
 

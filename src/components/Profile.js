@@ -48,9 +48,11 @@ export default class Profile extends Component {
                 <Link to="/" className="btn btn-light">
                     Back to Search
                 </Link>
-                Hireable : {
-                    hireable ? (<i className="fas fa-check text-success" />) : (<i className="fas fa-check text-danger" />)
-                }
+                Hireable : { hireable ? (
+                    <i className="fas fa-check text-success" />
+                    ) : (
+                        <i className="fas fa-times text-danger" />
+                )}
 
                 <div className="card grid-2">
                     <div className="all-center">
