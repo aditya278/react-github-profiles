@@ -1,17 +1,20 @@
-import React, { useEffect } from 'react'
-
-import PropTypes from 'prop-types';
+import React, { useEffect, useContext } from 'react'
 import { Link } from 'react-router-dom';
 
 import Loading from './Loading';
 import Repos from './Repos';
 
-function Profile ({userProfile, getUserProfile, loading, userRepos, getUserRepos, match}) {
+import GithubContext from '../context/GitHub/GithubContext';
+
+function Profile ({match}) {
+
+    const githubContext = useContext(GithubContext);
+
+    const { user, loading, getUser, getUserRepos} = githubContext;
 
     useEffect(() => {
-        const username = match.params.username;
-        getUserProfile(username);
-        getUserRepos(username);
+        getUser(match.params.username);
+        getUserRepos(match.params.username);
     // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
@@ -29,7 +32,7 @@ function Profile ({userProfile, getUserProfile, loading, userRepos, getUserRepos
         public_gists,
         hireable,
         company
-    } = userProfile;
+    } = user;
 
     if (loading) {
         return <Loading />
@@ -37,7 +40,7 @@ function Profile ({userProfile, getUserProfile, loading, userRepos, getUserRepos
 
     return (
         <>
-            <Link to="/" className="btn btn-light">
+            <Link to="/react-github-profiles" className="btn btn-light">
                 Back to Search
             </Link>
             Hireable : { hireable ? (
@@ -107,17 +110,9 @@ function Profile ({userProfile, getUserProfile, loading, userRepos, getUserRepos
                     Public Gists : {public_gists}
                 </div>
             </div>
-            <Repos userRepos={userRepos} />
+            <Repos />
         </>
     )
-}
-
-Profile.propTypes = {
-    userProfile: PropTypes.object.isRequired,
-    getUserProfile: PropTypes.func.isRequired,
-    loading : PropTypes.bool.isRequired,
-    userRepos : PropTypes.array.isRequired,
-    getUserRepos : PropTypes.func.isRequired
 }
 
 export default Profile;

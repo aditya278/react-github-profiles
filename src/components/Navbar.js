@@ -6,17 +6,17 @@ function Navbar({title, icon}) {
     return (
         <div>
             <nav className="navbar bg-primary">
-                <Link to="/">
+                <Link to="/react-github-profiles">
                     <h1>
                         <i className={icon}></i> {title}
                     </h1>
                 </Link>
                 <ul>
                     <li>
-                        <Link to="/">Home</Link>
+                        <Link to="/react-github-profiles">Home</Link>
                     </li>
                     <li>
-                        <Link to="/about">About</Link>
+                        <Link to="/react-github-profiles/about">About</Link>
                     </li>
                 </ul>
             </nav>

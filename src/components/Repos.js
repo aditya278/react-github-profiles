@@ -1,20 +1,20 @@
-import React from 'react'
-import PropTypes from 'prop-types';
+import React, { useContext } from 'react';
 
 import RepoItem from './RepoItem';
 
-function Repos({userRepos}) {
+import GithubContext from '../context/GitHub/GithubContext';
+
+function Repos() {
+    const githubContext = useContext(GithubContext);
+    const { repos } = githubContext;
+
     return (
         <div id="repos" style={userStyle}>
             {
-                userRepos.map(repo => <RepoItem repo={repo} key={repo.id} />)
+                repos.map(repo => <RepoItem repo={repo} key={repo.id} />)
             }
         </div>
     )
-}
-
-Repos.propTypes = {
-    userRepos : PropTypes.array.isRequired
 }
 
 const userStyle = {
@@ -23,4 +23,4 @@ const userStyle = {
     gridGap: "2rem",
 };
 
-export default Repos
+export default Repos;
